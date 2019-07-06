@@ -8,7 +8,7 @@ public class MySQLConnect {
     private String user = "root";
     private String pass = "fakepass";
 
-    public void CheckDB(String db) {
+    public void checkDB(String db) {
         try {
             Connection connection = DriverManager.getConnection(server, user, pass);
             // Connection connection = <your java.sql.Connection>
@@ -38,7 +38,7 @@ public class MySQLConnect {
         }
     }
 
-    public Connection ConnectToDB(String db) {
+    public Connection connectToDB(String db) {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(server + db, user, pass);
@@ -49,7 +49,7 @@ public class MySQLConnect {
         return connection;
     }
 
-    public void Disconnect(Connection connection) {
+    public void disconnect(Connection connection) {
         try {
             connection.close();
             System.out.println("Connection closed");

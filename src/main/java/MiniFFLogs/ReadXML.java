@@ -78,12 +78,12 @@ public class ReadXML extends DefaultHandler {
                 ally = false;
             } else if (name) {
                 if (data.toString().equalsIgnoreCase("YOU")) {
-                    player.setFirstName("Val");
-                    player.setLastName("Geurra");
+                    player.setFirstName("Val Guerra");
                 } else {
-                    String[] str = data.toString().split(" ");
-                    player.setFirstName(str[0]);
-                    player.setLastName(str[1]);
+//                    String[] str = data.toString().split(" ");
+//                    player.setFirstName(str[0]);
+//                    player.setLastName(str[1]);
+                    player.setFirstName(data.toString());
                 }
                 name = false;
             } else if (date){

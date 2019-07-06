@@ -1,21 +1,19 @@
 package MiniFFLogs.MySQL.Commands;
 
-import MiniFFLogs.MySQL.Command;
-
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class CreateTable implements Command {
+public class Select {
 
-    @Override
-    public void run(Connection connection, String query) {
+    public ResultSet run(Connection connection, String query) {
         try {
             Statement stmt = connection.createStatement();
-            stmt.executeUpdate(query);
-            stmt.close();
+            return stmt.executeQuery(query);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
     }
 }
