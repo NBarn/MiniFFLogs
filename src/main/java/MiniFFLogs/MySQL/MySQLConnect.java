@@ -41,7 +41,7 @@ public class MySQLConnect {
     public Connection ConnectToDB(String db) {
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection(server, user, pass);
+            connection = DriverManager.getConnection(server + db, user, pass);
             System.out.println("Connection with " + db);
         } catch (SQLException e) {
             e.printStackTrace();
