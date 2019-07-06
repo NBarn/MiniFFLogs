@@ -2,9 +2,12 @@ package MiniFFLogs;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
+import MiniFFLogs.MySQL.MySQLConnect;
 import org.xml.sax.SAXException;
 
 public class App 
@@ -26,6 +29,13 @@ public class App
         } catch (IOException e) {
             e.printStackTrace();
         }
+        MySQLConnect mySQLConnect = new MySQLConnect();
+        mySQLConnect.CheckDB(readXML.getBoss());
+        Connection dbConnection  = mySQLConnect.ConnectToDB(readXML.getBoss());
+        if (dbConnection == null) {
+            return;
+        }
+        mySQLConnect.Disconnect(dbConnection);
 //        for (Player player : readXML.getList()) {
 //            System.out.println(player.toString());
 //        }
