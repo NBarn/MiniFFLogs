@@ -13,9 +13,11 @@ public class ReadXML extends DefaultHandler {
     private boolean ally;
     private boolean name;
     private boolean date;
+    private boolean duration;
     private boolean dmg_perc;
-    private boolean healing;
+    private boolean heal_perc;
     private boolean dps;
+    private boolean hps;
     private boolean deaths;
     private boolean crit_heal;
     private boolean crit_hit;
@@ -41,15 +43,17 @@ public class ReadXML extends DefaultHandler {
         } else if (qName.equalsIgnoreCase("Name")) {
             name = true;
         } else if (qName.equalsIgnoreCase("EndTime")) {
-            date = true;
+            date = true;;
+        } else if (qName.equalsIgnoreCase("Duration")) {
+            duration = true;
         } else if (qName.equalsIgnoreCase("DamagePerc")) {
             dmg_perc = true;
         } else if (qName.equalsIgnoreCase("HealedPerc")) {
-            healing = true;
+            heal_perc = true;
         } else if (qName.equalsIgnoreCase("EncDPS")) {
             dps = true;
         } else if (qName.equalsIgnoreCase("EncHPS")) {
-            healing = true;
+            hps = true;
         } else if (qName.equalsIgnoreCase("Deaths")) {
             deaths = true;
         } else if (qName.equalsIgnoreCase("CritDamPerc")) {
@@ -80,24 +84,27 @@ public class ReadXML extends DefaultHandler {
                 if (data.toString().equalsIgnoreCase("YOU")) {
                     player.setFirstName("Val Guerra");
                 } else {
-//                    String[] str = data.toString().split(" ");
-//                    player.setFirstName(str[0]);
-//                    player.setLastName(str[1]);
                     player.setFirstName(data.toString());
                 }
                 name = false;
             } else if (date){
                 player.setDate(data.toString());
                 date = false;
+            } else if (duration){
+                player.setDuration(Integer.parseInt(data.toString()));
+                duration = false;
             } else if (dmg_perc) {
                 player.setDmg_perc(Float.parseFloat(data.toString().replace("%", "")));
                 dmg_perc = false;
-            } else if (healing) {
+            } else if (heal_perc) {
                 player.setHealing(Float.parseFloat(data.toString().replace("%", "")));
-                healing = false;
+                heal_perc = false;
             } else if (dps) {
                 player.setDps(Float.parseFloat(data.toString().replace("%", "")));
                 dps = false;
+            } else if (hps) {
+                player.setHps(Float.parseFloat(data.toString().replace("%", "")));
+                hps = false;
             } else if (deaths) {
                 player.setDeaths(Integer.parseInt(data.toString()));
                 deaths = false;
@@ -127,12 +134,16 @@ public class ReadXML extends DefaultHandler {
                 name = false;
             } else if (date) {
                 date = false;
+            } else if (duration) {
+                duration = false;
             } else if (dmg_perc) {
                 dmg_perc = false;
-            } else if (healing) {
-                healing = false;
+            } else if (heal_perc) {
+                heal_perc = false;
             } else if (dps) {
                 dps = false;
+            } else if (hps) {
+                hps = false;
             } else if (deaths) {
                 deaths = false;
             } else if (crit_heal) {

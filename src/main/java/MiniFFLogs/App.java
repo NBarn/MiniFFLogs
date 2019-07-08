@@ -3,17 +3,11 @@ package MiniFFLogs;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import MiniFFLogs.MySQL.Command;
-import MiniFFLogs.MySQL.Commands.CreateTable;
-import MiniFFLogs.MySQL.Commands.Insert;
-import MiniFFLogs.MySQL.Commands.Select;
+import MiniFFLogs.MySQL.InsertHandler;
 import MiniFFLogs.MySQL.MySQLConnect;
 import org.xml.sax.SAXException;
 
@@ -44,29 +38,34 @@ public class App
         if (dbConnection == null) {
             return;
         }
-        Command createTable = new CreateTable();
-        String query = "CREATE TABLE IF NOT EXISTS players (" +
-                "id INT NOT NULL AUTO_INCREMENT," +
-                "first_name VARCHAR(50) NOT NULL UNIQUE," +
-                "job VARCHAR(4) NOT NULL," +
-                "static BOOLEAN," +
-                "PRIMARY KEY(id)" +
-                ");";
-        createTable.run(dbConnection, query);
-        Command insert = new Insert();
+//        Command createTable = new CreateTable();
+//        String query = "CREATE TABLE IF NOT EXISTS players (" +
+//                "id INT NOT NULL AUTO_INCREMENT," +
+//                "first_name VARCHAR(50) NOT NULL UNIQUE," +
+//                "job VARCHAR(4) NOT NULL," +
+//                "static BOOLEAN," +
+//                "PRIMARY KEY(id)" +
+//                ");";
+//        createTable.run(dbConnection, query);
+//        Command insert = new Insert();
+        InsertHandler insertHandler = new InsertHandler();
         for (Player player : readXML.getList()) {
-            if (player.getFirstName().equalsIgnoreCase("Limit Break")) {
+            if (player.getName().equalsIgnoreCase("Limit Break")) {
                 continue;
             }
-            StringBuilder str = new StringBuilder("INSERT INTO players " +
-                                                    "VALUES " +
-                                                    "(DEFAULT," +
-                                                    "'" + player.getFirstName() + "'" + "," +
-                                                    "'" + player.getJob() + "'" + "," +
-                                                    "true" +
-                                                    ");");
-            insert.run(dbConnection, str.toString());
+            //System.out.println(dbConnection);
+            insertHandler.handleInserts(dbConnection, player);
+//            System.out.println(String.format(table1, player.getFirstName(), player.getJob(), "true"));
+//            StringBuilder str = new StringBuilder("INSERT INTO players " +
+//                                                    "VALUES " +
+//                                                    "(DEFAULT," +
+//                                                    "'" + player.getFirstName() + "'" + "," +
+//                                                    "'" + player.getJob() + "'" + "," +
+//                                                    "true" +
+//                                                    ");");
+//            insert.run(dbConnection, str.toString());
         }
+
 //        Select select = new Select();
 //        query = "SELECT *" +
 //                "FROM players;";

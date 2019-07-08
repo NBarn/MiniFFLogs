@@ -2,32 +2,28 @@ package MiniFFLogs;
 
 public class Player {
 
-    private String firstName;
-    private String lastName;
+    private String name;
     private String job;
     private String date;
     private float dmg_perc;
     private float dps;
+    private float hps;
     private float crit_hit_perc;
     private float dh_perc;
     private float healing;
     private float crit_heal_perc;
     private float overheal_perc;
     private float crit_dh_perc;
+
+
+    private int duration;
     private int deaths;
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setFirstName(String name) {
+        this.name = name;
     }
 
     public String getJob() {
@@ -56,6 +52,13 @@ public class Player {
     }
     public void setDps(float dps) {
         this.dps = dps;
+    }
+
+    public float getHps() {
+        return hps;
+    }
+    public void setHps(float hps) {
+        this.hps = hps;
     }
 
     public float getCrit_hit_perc() {
@@ -100,6 +103,13 @@ public class Player {
         this.crit_dh_perc = crit_dh_perc;
     }
 
+    public int getDuration() {
+        return duration;
+    }
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
     public int getDeaths() {
         return deaths;
     }
@@ -109,7 +119,7 @@ public class Player {
 
     @Override
     public String toString() {
-        StringBuilder strB = new StringBuilder(firstName + " " + lastName + " " + job + " " + date + " " + dmg_perc);
+        StringBuilder strB = new StringBuilder(name + " " + job + " " + date + " " + dmg_perc);
         return strB.toString();
     }
 

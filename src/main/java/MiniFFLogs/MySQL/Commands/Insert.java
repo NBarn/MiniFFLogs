@@ -21,8 +21,6 @@ public class Insert implements Command {
     public void run(Connection connection, String query) {
         try {
             Statement stmt = connection.createStatement();
-            Select select = new Select();
-            select.run(connection, "SELECT ");
             try {
                 stmt.executeUpdate(query);
             } catch (SQLIntegrityConstraintViolationException e) {

@@ -8,10 +8,10 @@ public class MySQLConnect {
     private String user = "root";
     private String pass = "fakepass";
 
+    //TODO: Maybe move this somewhere else
     public void checkDB(String db) {
         try {
             Connection connection = DriverManager.getConnection(server, user, pass);
-            // Connection connection = <your java.sql.Connection>
             ResultSet resultSet = connection.getMetaData().getCatalogs();
 
             //iterate each catalog in the ResultSet
@@ -27,10 +27,8 @@ public class MySQLConnect {
             resultSet.close();
 
             if (!isDBThere) {
-                String sql = "CREATE DATABASE " + db;
-                Statement stmt = connection.createStatement();
-                stmt.executeUpdate(sql);
-                stmt.close();
+                NewDB newDB = new NewDB();
+                newDB.createDB(connection, db);
             }
             connection.close();
         } catch (SQLException e) {
