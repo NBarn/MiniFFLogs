@@ -18,7 +18,6 @@ public class InsertHandler extends Thread {
             "VALUES " +
             "(DEFAULT," +
             "'%s'" + "," +
-            "'%s'" + "," +
             "%s" +
             ");";
 
@@ -26,6 +25,7 @@ public class InsertHandler extends Thread {
             "VALUES " +
             "(DEFAULT," +
             "%d," +
+            "'%s'" + "," +
             "%f," +
             "%f," +
             "%f," +
@@ -102,12 +102,12 @@ public class InsertHandler extends Thread {
             return;
         }
         Insert insert = new Insert();
-        insert.execute(connection, String.format(table1, player.getName(), player.getJob(), Player.isStaticMember(player.getName())));
+        insert.execute(connection, String.format(table1, player.getName(), Player.isStaticMember(player.getName())));
     }
 
     private void insertTable2(Connection connection, Player player, int playerID) {
         Insert insert = new Insert();
-        insert.execute(connection, String.format(table2, playerID, player.getDps(), player.getDmg_perc(), player.getCrit_hit_perc(),
+        insert.execute(connection, String.format(table2, playerID, player.getJob(), player.getDps(), player.getDmg_perc(), player.getCrit_hit_perc(),
                                                 player.getDh_perc(), player.getCrit_dh_perc(), player.getDeaths(),
                                                 player.getDuration(), player.getDate()));
     }
@@ -142,10 +142,9 @@ public class InsertHandler extends Thread {
 
     private boolean tableHasPlayer(Connection connection, Player player) {
         try {
-            String query = "SELECT name, job " +
+            String query = "SELECT name " +
                             "FROM players " +
-                            "WHERE name = '" + player.getName() + "' " +
-                            "AND job = '" + player.getJob() + "'";
+                            "WHERE name = '" + player.getName() + "'";
             Statement stmt = connection.createStatement();
             ResultSet result = stmt.executeQuery(query);
             return result.next();
@@ -202,8 +201,7 @@ public class InsertHandler extends Thread {
         try {
             String query = "SELECT player_id " +
                     "FROM players " +
-                    "WHERE name = '" + player.getName() + "' " +
-                    "AND job = '" + player.getJob() + "'";
+                    "WHERE name = '" + player.getName() + "'";
             Statement stmt = connection.createStatement();
             ResultSet result = stmt.executeQuery(query);
             if (!result.next()) {

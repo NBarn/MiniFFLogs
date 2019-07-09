@@ -12,12 +12,11 @@ import java.util.List;
 
 public class NewDB {
 
-    private String createDB = "CREATE DATABASE %s";
+    private String createDB = "CREATE DATABASE IF NOT EXISTS %s";
 
     private String createTable1 = "CREATE TABLE IF NOT EXISTS players " +
             "(player_id INT(255) NOT NULL AUTO_INCREMENT," +
-            "name VARCHAR(50) NOT NULL," +
-            "job VARCHAR(4) NOT NULL," +
+            "name VARCHAR(50) NOT NULL UNIQUE," +
             "static BOOLEAN," +
             "PRIMARY KEY(player_id)" +
             ");";
@@ -25,6 +24,7 @@ public class NewDB {
     private String createTable2 = "CREATE TABLE IF NOT EXISTS damage " +
             "(id INT(255) NOT NULL AUTO_INCREMENT," +
             "player_id INT(255) NOT NULL," +
+            "job VARCHAR(4) NOT NULL," +
             "dps DECIMAL(65, 2) NOT NULL," +
             "dmg_perc DECIMAL(65, 2) NOT NULL," +
             "critical_hit_perc DECIMAL(65, 2) NOT NULL," +

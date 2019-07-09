@@ -1,19 +1,10 @@
 package MiniFFLogs.MySQL.Commands;
 
 import MiniFFLogs.MySQL.Command;
+import MiniFFLogs.Player;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.sql.Statement;
+import java.sql.*;
 
-//TODO: Logic for no duplicates in Table 1 and 4, requires comparison to name AND job, as a player can be added with different jobs
-//TODO: Unique insert class that takes the entry, puts it into threads then inserts it into classes with logic handled or just logic in separate functions in this class?
-    /*
-    Example:
-        InsertLogic
-            Grabs list of players, has 3 separate functions. Function for checking duplicates. Function for the disregard of duplicates. Each function coming back to this class
-     */
 public class Insert implements Command {
 
     @Override
