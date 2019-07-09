@@ -3,11 +3,9 @@ package MiniFFLogs;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-import MiniFFLogs.Player;
 
 import java.util.LinkedList;
 
-//TODO: Remember to check that it is a valid player before adding to db, ex: Limit Break
 public class ReadXML extends DefaultHandler {
 
     private boolean ally;
@@ -84,7 +82,7 @@ public class ReadXML extends DefaultHandler {
                 if (data.toString().equalsIgnoreCase("YOU")) {
                     player.setFirstName("Val Guerra");
                 } else {
-                    player.setFirstName(data.toString());
+                    player.setFirstName(data.toString().replace("'", "''"));
                 }
                 name = false;
             } else if (date){

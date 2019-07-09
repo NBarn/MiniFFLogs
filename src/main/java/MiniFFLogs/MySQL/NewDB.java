@@ -13,7 +13,7 @@ public class NewDB {
 
     private String createTable1 = "CREATE TABLE IF NOT EXISTS players " +
             "(player_id INT(255) NOT NULL AUTO_INCREMENT," +
-            "name VARCHAR(50) NOT NULL UNIQUE," +
+            "name VARCHAR(50) NOT NULL," +
             "job VARCHAR(4) NOT NULL," +
             "static BOOLEAN," +
             "PRIMARY KEY(player_id)" +
@@ -46,10 +46,10 @@ public class NewDB {
             "PRIMARY KEY(id)" +
             ");";
 
-    private String createTable4 = "CREATE TABLE IF NOT EXISTS topdps " +
+    private String createTable4 = "CREATE TABLE IF NOT EXISTS top_dps " +
             "(player_id INT(255) NOT NULL," +
             "dps_id INT(255) NOT NULL," +
-            "top_dps DECIMAL(65, 2) NOT NULL," +
+            "topdps DECIMAL(65, 2) NOT NULL," +
             "PRIMARY KEY(player_id)" +
             ");";
 
@@ -59,6 +59,7 @@ public class NewDB {
             "PRIMARY KEY(player_id)" +
             ");";
 
+    //TODO: Threads
     public void createDB(Connection connection, String dbName) {
         Statement stmt = null;
         try {
