@@ -1,6 +1,19 @@
 package MiniFFLogs;
 
+import java.util.Dictionary;
+import java.util.HashMap;
+
 public class Player {
+
+    private static HashMap<String, Boolean> staticMembers= new HashMap<String, Boolean>() {{
+        put("Val Guerra", true);
+        put("Kabuki Elysium", true);
+        put("Kilia Sunder", true);
+        put("Jirou Thirteen", true);
+        put("Haki Shen", true);
+        put("Josen Tiamat", true);
+        put("Bankai Getsugatenso", true);
+    }};
 
     private String name;
     private String job;
@@ -115,6 +128,10 @@ public class Player {
     }
     public void setDeaths(int deaths) {
         this.deaths = deaths;
+    }
+
+    public static boolean isStaticMember(String name) {
+        return staticMembers.get(name) != null;
     }
 
     @Override

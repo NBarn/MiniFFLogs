@@ -17,7 +17,7 @@ import java.sql.Statement;
 public class Insert implements Command {
 
     @Override
-    public void run(Connection connection, String query) {
+    public void execute(Connection connection, String query) {
         try {
             Statement stmt = connection.createStatement();
             try {

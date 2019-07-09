@@ -1,11 +1,14 @@
 package MiniFFLogs.MySQL;
 
 import MiniFFLogs.MySQL.Commands.CreateTable;
+import MiniFFLogs.Player;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NewDB {
 
@@ -59,6 +62,8 @@ public class NewDB {
             "PRIMARY KEY(player_id)" +
             ");";
 
+    private String[] queryArr = { createTable1, createTable2, createTable3, createTable4, createTable5 };
+
     //TODO: Threads
     public void createDB(Connection connection, String dbName) {
         Statement stmt = null;
@@ -70,11 +75,19 @@ public class NewDB {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        CreateTable createTable = new CreateTable();
-        createTable.run(connection, createTable1);
-        createTable.run(connection, createTable2);
-        createTable.run(connection, createTable3);
-        createTable.run(connection, createTable4);
-        createTable.run(connection, createTable5);
+
+        List<Thread> threadList = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            Thread thread = new Thread(new CreateTable(connection, queryArr[i]));
+            thread.start();
+            threadList.add(thread);
+        }
+        for (Thread thread : threadList) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

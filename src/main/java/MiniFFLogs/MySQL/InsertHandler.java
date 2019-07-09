@@ -9,7 +9,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class InsertHandler {
+public class InsertHandler extends Thread {
+
+    Connection connection;
+    Player player;
 
     private String table1 = "INSERT INTO players " +
             "VALUES " +
@@ -67,6 +70,20 @@ public class InsertHandler {
             "SET deaths = %d + %d " +
             "WHERE player_id = %d";
 
+    public InsertHandler(Connection connection, Player player) {
+        this.connection = connection;
+        this.player = player;
+    }
+
+    @Override
+    public void run() {
+        try {
+            handleInserts(connection, player);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     //TODO: Is it worth having multiple function calls?
     public void handleInserts(Connection connection, Player player) {
         insertTable1(connection, player);
@@ -85,41 +102,41 @@ public class InsertHandler {
             return;
         }
         Insert insert = new Insert();
-        insert.run(connection, String.format(table1, player.getName(), player.getJob(), "true"));
+        insert.execute(connection, String.format(table1, player.getName(), player.getJob(), Player.isStaticMember(player.getName())));
     }
 
     private void insertTable2(Connection connection, Player player, int playerID) {
         Insert insert = new Insert();
-        insert.run(connection, String.format(table2, /*playerID(connection, player)*/ playerID, player.getDps(), player.getDmg_perc(), player.getCrit_hit_perc(),
+        insert.execute(connection, String.format(table2, playerID, player.getDps(), player.getDmg_perc(), player.getCrit_hit_perc(),
                                                 player.getDh_perc(), player.getCrit_dh_perc(), player.getDeaths(),
                                                 player.getDuration(), player.getDate()));
     }
 
     private void insertTable3(Connection connection, Player player, int playerID) {
         Insert insert = new Insert();
-        insert.run(connection, String.format(table3, /*playerID(connection, player)*/ playerID, player.getHps(), player.getHealing(), player.getCrit_heal_perc(),
+        insert.execute(connection, String.format(table3, playerID, player.getHps(), player.getHealing(), player.getCrit_heal_perc(),
                 player.getOverheal_perc(), player.getDeaths(), player.getDuration(), player.getDate()));
     }
 
     private void insertTable4(Connection connection, Player player, int playerID) {
         if (!haveTopDPS(connection, player)) {
             Insert insert = new Insert();
-            insert.run(connection, String.format(table4, /*playerID(connection, player)*/ playerID, dpsID(connection, player, playerID), player.getDps()));
+            insert.execute(connection, String.format(table4, playerID, dpsID(connection, player, playerID), player.getDps()));
         }
         else if (checkTopDPS(connection, player, playerID)) {
             Update update = new Update();
-            update.run(connection, String.format(uTable4, player.getDps(), /*playerID(connection, player)*/ playerID));
+            update.execute(connection, String.format(uTable4, player.getDps(), playerID));
         }
     }
 
     private void insertTable5 (Connection connection, Player player, int playerID) {
         if (!hasDeaths(connection, player, playerID)) {
             Insert insert = new Insert();
-            insert.run(connection, String.format(table5, playerID, player.getDeaths()));
+            insert.execute(connection, String.format(table5, playerID, player.getDeaths()));
         }
         else {
             Update update = new Update();
-            update.run(connection, String.format(uTable5, totalDeaths(connection, player, playerID), player.getDeaths(), playerID));
+            update.execute(connection, String.format(uTable5, totalDeaths(connection, player, playerID), player.getDeaths(), playerID));
         }
     }
 
